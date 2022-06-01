@@ -4,14 +4,13 @@
 #include "../include/lexer.h"
 
 int main() {
-	Token* tokens = MakeTokens("+-*/()t");
+	Token* tokens = MakeTokens("");
 
 	for (int i = 0; true; i++) {
 		Token token = tokens[i];
-		printf("%d: '%s'\n", token.type, token.data);
-		if (token.type == EOS || token.type == ERROR) {
+		printf("%d: '%s' at %d\n", token.type, token.data, token.position);
+		if (token.type == EOS || token.type == ERROR)
 			break;
-		}
 	}
 
 	return 0;

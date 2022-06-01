@@ -1,7 +1,7 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-typedef enum Token_Type_Enum {
+typedef enum TokenTypeEnum {
     EOS,
     ERROR,
     INT,
@@ -12,13 +12,14 @@ typedef enum Token_Type_Enum {
     DIV,
     LPAREN,
     RPAREN
-} Token_Type;
+} TokenType;
 
-typedef struct Token_Struct {
-    Token_Type type;
+typedef struct TokenStruct {
+    TokenType type;
     char* data;
+	int position;
 } Token;
 
-Token* CreateToken(Token_Type type, char* data);
+Token* CreateToken(TokenType type, char* data, int position);
 
 #endif
