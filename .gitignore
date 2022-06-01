@@ -5,3 +5,4 @@ E.vcxproj.user
 make.bat
 .vs
 bin
+.gitignore

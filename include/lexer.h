@@ -1,8 +1,26 @@
 #ifndef LEXER_H
 #define LEXER_H
 
-#include "../include/token.h"
+typedef enum TokenTypeEnum {
+	EOS,
+	ERROR,
+	INT,
+	DOUBLE,
+	ADD,
+	SUB,
+	MUL,
+	DIV,
+	LPAREN,
+	RPAREN
+} TokenType;
 
+typedef struct TokenStruct {
+	TokenType type;
+	char* data;
+	int position;
+} Token;
+
+Token* CreateToken(TokenType type, char* data, int position);
 Token* MakeTokens(char* source);
 
 #endif

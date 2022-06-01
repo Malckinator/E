@@ -4,7 +4,19 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "../include/token.h"
+#include "../include/lexer.h"
+
+Token* CreateToken(TokenType type, char* data, int position) {
+	Token* result = (Token*)malloc(sizeof(Token));
+if (result == NULL) {
+		printf("Failed to allocate memory\n");
+		exit(0);
+	}
+	result->type = type;
+	result->data = data;
+	result->position = position;
+	return result;
+}
 
 void AddTokenToList(Token** list, Token* object, int* size) {
 	void* temp = realloc(*list, sizeof(Token) * (*size + 1));
@@ -41,6 +53,7 @@ Token* MakeNumber(char* source, int* i) {
 		}
 		(*i)++;
 	} while (isdigit(source[*i]) || source[*i] == '.');
+	(*i)--;
 
 	if (isDouble) {
 		return CreateToken(DOUBLE, strnum, start);
