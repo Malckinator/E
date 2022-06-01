@@ -1,34 +1,49 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
 
 #include "../include/token.h"
 
+void AddTokenToList(Token** list, Token* object, int* size) {
+	void* temp = realloc(*list, sizeof(Token) * (*size + 1));
+	if (temp == NULL) {
+		printf("Could not allocate memory.");
+		exit(0);
+	}
+	*list = (Token*) temp;
+	(*list)[*size] = *object;
+	(*size)++;
+}
+
 Token* MakeTokens(char* source) {
-    for (int i = 0; source[i] != '\0'; i++) {
+	Token* list = malloc(0);
+	int size = 0;
+
+    for (int i = 0; true; i++) {
         char c = source[i];
 
         if (c == '\0') {
-            return CreateToken(EOS, "");
+			AddTokenToList(&list, CreateToken(EOS, ""), &size);
+			return list;
         } else if (isdigit(c)) {
             // TODO: implemet numbers
         } else if (c == '+') {
-            return CreateToken(ADD, "");
+			AddTokenToList(&list, CreateToken(ADD, ""), &size);
         } else if (c == '-') {
-            return CreateToken(SUB, "");
+			AddTokenToList(&list, CreateToken(SUB, ""), &size);
         } else if (c == '*') {
-            return CreateToken(MUL, "");
+			AddTokenToList(&list, CreateToken(MUL, ""), &size);
         } else if (c == '/') {
-            return CreateToken(DIV, "");
+			AddTokenToList(&list, CreateToken(DIV, ""), &size);
         } else if (c == '(') {
-            return CreateToken(LPAREN, "");
+			AddTokenToList(&list, CreateToken(LPAREN, ""), &size);
         } else if (c == ')') {
-            return CreateToken(RPAREN, "");
-        } else if (isspace(c)) {
-            continue;
-        } else {
-            char msg[22];
-            sprintf(msg, "Invalid character '%c'", c);
+			AddTokenToList(&list, CreateToken(RPAREN, ""), &size);
+        } else if (!isspace(c)) {
+			char msg[22];
+            sprintf_s(msg, 22, "Invalid character '%c'", c);
             return CreateToken(ERROR, msg);
         }
     }
