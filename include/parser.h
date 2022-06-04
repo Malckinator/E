@@ -18,6 +18,7 @@ typedef struct ExpressionStruct {
 } Expression;
 
 Expression* CreateExpression(ExpressionType type, Expression* left, int op, Expression* right, char* value);
+Expression* ParseExpression(Token* tokens, int* position);
 Expression* Parse(Token* tokens);
 
 #endif
