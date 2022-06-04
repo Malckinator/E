@@ -28,9 +28,18 @@ Token Peek(Token* tokens, int position) {
 Expression* ParseTerm(Token* tokens, int* position) {
 	Token token = tokens[*position];
 
-	if (token.type == INT || token.type == DOUBLE) {
+	if (token.type == ADD || token.type == SUB) {
 		(*position)++;
-		return CreateExpression(NumberExpression, NULL, 0, NULL, token.data);
+		printf("%d\n", *position);
+		Expression* term = ParseTerm(tokens, position);
+		if (term->type == ErrorExpression)
+			return term;
+		return CreateExpression(UnaryExpression, term, (int) token.type, NULL, "");
+	}
+
+	if (token.type == INT || token.type == FLOAT) {
+		(*position)++;
+		return CreateExpression(NumberExpression, NULL, (int) token.type, NULL, token.data);
 	} else if (token.type == LPAREN) {
 		(*position)++;
 		Expression* expression = ParseExpression(tokens, position);
@@ -93,6 +102,5 @@ Expression* ParseExpression(Token* tokens, int* position) {
 
 Expression* Parse(Token* tokens) {
 	int position = 0;
-	Expression* expression = ParseExpression(tokens, &position);
-	return expression;
+	return ParseExpression(tokens, &position);
 }

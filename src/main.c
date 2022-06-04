@@ -7,11 +7,16 @@
 #include "../include/parser.h"
 #include "../include/evaluator.h"
 
-#define INPUT_SIZE 100
-
 void DisplayParserTree(Expression* tree) {
 	if (tree->type == NumberExpression) {
 		printf("%s", tree->value);
+	} else if (tree->type == UnaryExpression) {
+		if (tree->op == ADD)
+			printf("+");
+		else if (tree->op == SUB)
+			printf("-");
+
+		DisplayParserTree(tree->left);
 	} else if (tree->type == BinaryExpression) {
 		printf("(");
 		DisplayParserTree(tree->left);
@@ -22,7 +27,7 @@ void DisplayParserTree(Expression* tree) {
 }
 
 int main() {
-	Token* tokens = MakeTokens("12 - 5 * 54");
+	Token* tokens = MakeTokens("-(2+5)");
 	Expression* parserTree = Parse(tokens);
 	int value = Evaluate(parserTree);
 
@@ -33,9 +38,9 @@ int main() {
 		if (token.type == EOS || token.type == ERROR)
 			break;
 	}
+	free(tokens);
 
 	printf("\nParser:\n");
-	free(tokens);
 	if (parserTree->type == ErrorExpression)
 		printf("Error: %s\n", parserTree->value);
 	DisplayParserTree(parserTree);

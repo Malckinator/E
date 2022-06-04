@@ -5,7 +5,7 @@ typedef enum TokenTypeEnum {
 	EOS,
 	ERROR,
 	INT,
-	DOUBLE,
+	FLOAT,
 	ADD,
 	SUB,
 	MUL,

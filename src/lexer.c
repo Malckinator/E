@@ -57,7 +57,7 @@ Token* MakeNumber(char* source, int* i) {
 	(*i)--;
 
 	if (isDouble) {
-		return CreateToken(DOUBLE, strnum, start);
+		return CreateToken(FLOAT, strnum, start);
 	} else {
 		return CreateToken(INT, strnum, start);
 	}
